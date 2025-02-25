@@ -16,14 +16,16 @@ public class BaseTest {
 
     @BeforeEach
     public void setUp() {
-        homePage = new HomePage(driver);
-        driver = homePage.chromeDriverConection();
-        homePage.visitPage("https://automationexercise.com/");
+        CommonActionPages commonActions = new CommonActionPages(driver);
+        driver = commonActions.chromeDriverConection();
 
+        homePage = new HomePage(driver);
         contactPage = new ContactPage(driver);
         productPage = new ProductPage(driver);
         shoppingCartPage = new ShoppingCartPage(driver);
         allProductsPage = new AllProductsPage(driver);
+
+        homePage.visitPage("https://automationexercise.com/");
     }
 
     @AfterEach

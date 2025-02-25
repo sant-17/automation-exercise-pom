@@ -2,50 +2,43 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class ShoppingCartPage extends CommonActionPages {
 
     public ShoppingCartPage(WebDriver driver) {
         super(driver);
+        PageFactory.initElements(driver, this);
     }
 
-    By lblProductPrice = By.xpath("//td[@class='cart_price']/p");
-    By lblProcuctTotalPrice = By.xpath("//p[@class='cart_total_price']");
-    By lblProductQuantity = By.xpath("//td[@class='cart_quantity']/button");
+    @FindBy(xpath = "//td[@class='cart_price']/p")
+    private WebElement lblProductPrice;
+
+    @FindBy(xpath = "//p[@class='cart_total_price']")
+    private WebElement lblProductTotalPrice;
+
+    @FindBy(xpath = "//td[@class='cart_quantity']/button")
+    private WebElement lblProductQuantity;
 
     public Integer getSinglePrice() {
-        int value;
-
-        try {
-            value = Integer.parseInt(getElementText(lblProductPrice));
-        } catch (NumberFormatException e) {
-            value = 0;
-        }
-
-        return value;
+        return parseInteger(lblProductPrice.getText());
     }
 
     public Integer getTotalPrice() {
-        int value;
-
-        try {
-            value = Integer.parseInt(getElementText(lblProcuctTotalPrice));
-        } catch (NumberFormatException e) {
-            value = 0;
-        }
-
-        return value;
+        return parseInteger(lblProductTotalPrice.getText());
     }
 
     public Integer getQuantity() {
-        int value;
+        return parseInteger(lblProductQuantity.getText());
+    }
 
+    private Integer parseInteger(String text) {
         try {
-            value = Integer.parseInt(getElementText(lblProductQuantity));
+            return Integer.parseInt(text);
         } catch (NumberFormatException e) {
-            value = 0;
+            return 0;
         }
-
-        return value;
     }
 }

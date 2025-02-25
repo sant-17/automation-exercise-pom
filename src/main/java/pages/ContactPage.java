@@ -1,8 +1,10 @@
 package pages;
 
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
@@ -12,15 +14,29 @@ public class ContactPage extends CommonActionPages{
 
     public ContactPage(WebDriver driver) {
         super(driver);
+        PageFactory.initElements(driver, this);
     }
 
-    By inputName = By.xpath("//input[@name='name']");
-    By inputEmail = By.xpath("//input[@name='email']");
-    By inputSubject = By.xpath("//input[@name='subject']");
-    By textareaMessage = By.xpath("//textarea[@name='message']");
-    By inputFile = By.xpath("//input[@name='upload_file']");
-    By btnSubmit = By.xpath("//input[@name='submit']");
-    By lblSuccess = By.xpath("//div[@class='status alert alert-success']");
+    @FindBy(xpath = "//input[@name='name']")
+    private WebElement inputName;
+
+    @FindBy(xpath = "//input[@name='email']")
+    private WebElement inputEmail;
+
+    @FindBy(xpath = "//input[@name='subject']")
+    private WebElement inputSubject;
+
+    @FindBy(xpath = "//textarea[@name='message']")
+    private WebElement textareaMessage;
+
+    @FindBy(xpath = "//input[@name='upload_file']")
+    private WebElement inputFile;
+
+    @FindBy(xpath = "//input[@name='submit']")
+    private WebElement btnSubmit;
+
+    @FindBy(xpath = "//div[@class='status alert alert-success']")
+    private WebElement lblSuccess;
 
     public void sendForm() {
         String name = "Juan";
@@ -29,12 +45,12 @@ public class ContactPage extends CommonActionPages{
         String message = "Hi, I'd like to make a claim.";
         File uploadFile = new File("src/main/resources/lost.jpg");
 
-        writeText(inputName, name);
-        writeText(inputEmail, email);
-        writeText(inputSubject, subject);
-        writeText(textareaMessage, message);
-        writeText(inputFile, uploadFile.getAbsolutePath());
-        clickElement(btnSubmit);
+        inputName.sendKeys(name);
+        inputEmail.sendKeys(email);
+        inputSubject.sendKeys(subject);
+        textareaMessage.sendKeys(message);
+        inputFile.sendKeys(uploadFile.getAbsolutePath());
+        btnSubmit.click();
 
         Alert alert = waitTimeInSeconds(Duration.ofSeconds(5))
                 .until(ExpectedConditions.alertIsPresent());
@@ -45,6 +61,6 @@ public class ContactPage extends CommonActionPages{
     }
 
     public String getSuccessMessage() {
-        return getElementText(lblSuccess);
+        return lblSuccess.getText();
     }
 }
