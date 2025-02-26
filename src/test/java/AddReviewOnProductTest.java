@@ -1,6 +1,7 @@
 import base.BaseTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AddReviewOnProductTest extends BaseTest {
 
@@ -8,6 +9,6 @@ public class AddReviewOnProductTest extends BaseTest {
     public void testAddReviewOnProduct() {
         homePage.accessRandomProduct();
         productPage.addReviewToProduct();
-        Assertions.assertEquals("Thank you for your review.", productPage.getReviewConfirmationMessage());
+        assertEquals("Thank you for your review.", productPage.getReviewConfirmationMessage());
     }
 }
